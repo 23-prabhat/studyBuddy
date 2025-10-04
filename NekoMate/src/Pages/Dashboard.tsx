@@ -1,4 +1,5 @@
 import SideBar from "@/DashboardComponents/SideBar";
+import TimerCard from "@/DashboardComponents/Timercard";
 import TodoCard from "@/DashboardComponents/TodoCard";
 
 export default function Dashboard() {
@@ -22,7 +23,7 @@ export default function Dashboard() {
 
         <div className="my-10 grid grid-cols-3 gap-6">
           <TodoCard />
-         
+          <TimerCard />
         </div>
       </div>
     </div>
