@@ -1,6 +1,6 @@
 export default function SideBar() {
   return (
-    <div className="h-screen w-60 bg-gray-900 text-white flex flex-col shadow-lg">
+    <div className="h-screen w-60 text-white flex flex-col shadow-lg border border-white">
       {/* Logo / Title */}
       <div className="px-6 py-6 text-2xl font-bold tracking-wide border-b border-gray-700">
         NekoMate

@@ -1,31 +1,27 @@
+import Calendar2 from "@/DashboardComponents/Calendar";
 import SideBar from "@/DashboardComponents/SideBar";
-import TimerCard from "@/DashboardComponents/Timercard";
-import TodoCard from "@/DashboardComponents/TodoCard";
+import Task from "@/DashboardComponents/Task";
 
-export default function Dashboard() {
+export default function Dashboard(){
+
+
   return (
-    <div className="flex">
-      {/* Sidebar */}
-      <div className="w-1/5">
+    
+  <div className="flex grid-cols-3 space-x-25 h-screen bg-gray-900">
+     <div>
         <SideBar />
+      </div> 
+      <div className="my-10">
+         <h1 className="text-4xl font-serif text-white font-bold">Hello, Prabhat</h1>
+         <p className="text-gray-400 mt-0.5">Let's be productive today</p>
+         <div className="mt-15">
+            <Task />
+         </div>
       </div>
-
-      {/* Main Content */}
-      <div className="flex-1 p-6">
-        <h1
-          className="text-4xl font-extrabold mb-8 
-                     bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 
-                     bg-clip-text text-transparent 
-                     drop-shadow-lg tracking-wide"
-        >
-          Hi, what up's — ready for today's grind?
-        </h1>
-
-        <div className="my-10 grid grid-cols-3 gap-6">
-          <TodoCard />
-          <TimerCard />
-        </div>
+      <div className="my-10">
+          <Calendar2 />
       </div>
-    </div>
-  );
+      </div>
+ 
+  )
 }
