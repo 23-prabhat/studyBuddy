@@ -1,18 +1,23 @@
-export default function Task(){
-    return (
-        <div className="text-white space-y-6">
-            <h1 className="font-sans font-semibold mx-4 text-3xl">Today's task</h1>
-            <div className="font-sans space-y-5 mx-7">
-               <div className="flex border border-white w-185 h-25 rounded-xl">
-                  <p className="mx-5 my-7"> Learn Python basics </p>
-               </div>
-               <div className="border border-white w-185 h-25 rounded-xl">
-                  <p className="mx-5 my-7"> complete all the basics of Operating Sysytem</p>
-               </div>
-               <div className="border border-white w-185 h-25 rounded-xl">
-                  <p className="mx-5 my-7"> complete 10 episodes of One Piece</p>
-               </div>
-            </div>
-        </div>
-    )
+const tasks = [
+   "Learn Python basics",
+   "Complete all the basics of Operating System",
+   "Watch 10 episodes of One Piece",
+];
+
+export default function Task() {
+   return (
+      <section className="space-y-6 rounded-2xl border border-white/10 bg-[#161B22] p-6 shadow-lg">
+         <h2 className="text-2xl font-semibold">Today's Tasks</h2>
+         <ul className="space-y-4">
+            {tasks.map((task) => (
+               <li
+                  key={task}
+                  className="rounded-xl border border-white/5 bg-[#0D1117] px-4 py-4 text-sm text-gray-200 shadow-sm"
+               >
+                  {task}
+               </li>
+            ))}
+         </ul>
+      </section>
+   );
 }

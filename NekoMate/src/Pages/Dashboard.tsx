@@ -6,40 +6,26 @@ import Timer from "@/components/Dashboard/Timer";
 
 export default function Dashboard() {
   return (
-    <div className="flex h-screen bg-[#0D1117] text-white font-sans">
-      {/* ===== Sidebar ===== */}
+    <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
       <SideBar />
 
-      {/* ===== Main Dashboard Area ===== */}
-      <main className="flex-1 flex justify-between px-10 py-10 space-x-8 overflow-y-auto">
-        {/* ===== Left Section: Tasks + Timer ===== */}
-        <section className="flex flex-col flex-[2]">
-          {/* Greeting Section */}
-          <header className="mb-8">
-            <h1 className="text-3xl font-semibold">Hello, Prabhat 👋</h1>
-            <p className="text-gray-400 mt-1">Let's be productive today.</p>
-          </header>
+      <main className="flex-1 overflow-y-auto px-8 py-10">
+        <div className="mx-auto flex w-full max-w-7xl flex-col gap-10 xl:flex-row">
+          <section className="flex-1 space-y-8">
+            <header>
+              <h1 className="text-3xl font-semibold">Hello, Prabhat 👋</h1>
+              <p className="mt-1 text-gray-400">Let's be productive today.</p>
+            </header>
 
-          {/* Tasks */}
-          <div className="space-y-8">
             <Task />
+            <Timer />
+          </section>
 
-            {/* Timer Section */}
-            <div className="w-full max-w-lg">
-              <Timer />
-            </div>
-          </div>
-        </section>
-
-        {/* ===== Right Section: Calendar + Notes ===== */}
-        <aside className="flex flex-col flex-1 space-y-10">
-          <div className="w-full">
+          <aside className="w-full space-y-8 xl:w-[420px]">
             <Calendar />
-          </div>
-          <div className="w-full">
             <Notes />
-          </div>
-        </aside>
+          </aside>
+        </div>
       </main>
     </div>
   );

@@ -1,8 +1,7 @@
 import { PauseIcon, PlayIcon, TimerResetIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export default function Timer() {
-  const [hours , setHours] = useState<number>(0)  
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setRunning] = useState<boolean>(false);
@@ -37,39 +36,50 @@ export default function Timer() {
     setRunning(false);
   };
 
+  const display = useMemo(() => {
+    const totalSeconds = minutes * 60 + seconds;
+    const hrs = Math.floor(totalSeconds / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+    return { hrs, mins, secs };
+  }, [minutes, seconds]);
+
   return (
-    <div className="flex flex-col text-white rounded-2xl p-8 shadow-lg">
-      <h1 className="text-3xl font-semibold mb-6">Focus Timer</h1>
+    <section className="flex flex-col rounded-2xl border border-white/10 bg-[#161B22] p-8 text-white shadow-lg">
+      <div className="mb-6 flex items-center justify-between">
+        <h2 className="text-2xl font-semibold">Focus Timer</h2>
+        <span className="text-xs uppercase tracking-wide text-gray-500">Pomodoro</span>
+      </div>
 
       {/* Timer Display */}
-      <div className="flex space-x-6 mb-6">
-        <div >
-          <div className="bg-gray-700 rounded-lg w-20 h-20 flex flex-col justify-center items-center text-3xl font-bold">
-            {String(hours).padStart(2, "0")}
+      <div className="mb-6 flex flex-wrap justify-center gap-6 md:justify-between">
+        <div className="text-center">
+          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-[#0D1117] text-3xl font-bold">
+            {String(display.hrs).padStart(2, "0")}
           </div>
           <p className="mt-2 text-sm text-gray-400">Hours</p>
         </div>
 
         <div className="text-center">
-          <div className="bg-gray-700 rounded-lg w-20 h-20 flex flex-col justify-center items-center text-3xl font-bold">
-            {String(minutes).padStart(2, "0")}
+          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-[#0D1117] text-3xl font-bold">
+            {String(display.mins).padStart(2, "0")}
           </div>
           <p className="mt-2 text-sm text-gray-400">Minutes</p>
         </div>
 
         <div className="text-center">
-          <div className="bg-gray-700 rounded-lg w-20 h-20 flex flex-col justify-center items-center text-3xl font-bold">
-            {String(seconds).padStart(2, "0")}
+          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-[#0D1117] text-3xl font-bold">
+            {String(display.secs).padStart(2, "0")}
           </div>
           <p className="mt-2 text-sm text-gray-400">Seconds</p>
         </div>
       </div>
 
       {/* Control Buttons */}
-      <div className="flex space-x-6 mt-2">
+      <div className="mt-2 flex gap-4">
         <button
           onClick={handleStartPause}
-          className="flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white rounded-full p-4 transition-all"
+          className="flex h-12 flex-1 items-center justify-center rounded-xl bg-orange-500 text-sm font-medium uppercase tracking-wide text-white transition hover:bg-orange-600"
           aria-label={isRunning ? "Pause Timer" : "Start Timer"}
         >
           {isRunning ? <PauseIcon size={22} /> : <PlayIcon size={22} />}
@@ -77,12 +87,12 @@ export default function Timer() {
 
         <button
           onClick={handleReset}
-          className="flex items-center justify-center bg-gray-600 hover:bg-gray-700 text-white rounded-full p-4 transition-all"
+          className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#0D1117] transition hover:border-orange-500/60 hover:text-orange-400"
           aria-label="Reset Timer"
         >
           <TimerResetIcon size={22} />
         </button>
       </div>
-    </div>
+    </section>
   );
 }
