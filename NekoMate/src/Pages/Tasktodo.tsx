@@ -1,10 +1,366 @@
+import { useState, useEffect } from "react";
+import { Plus, Pencil, Trash2, Check, X, Image as ImageIcon, Filter } from "lucide-react";
 import SideBar from "@/components/Dashboard/SideBar";
+import { todoService } from "@/services/todoService";
+import type { Todo, TodoInput } from "@/types/todo";
+import { auth } from "@/config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
-export default function Tasktodo(){
+export default function Tasktodo() {
+  const [user] = useAuthState(auth);
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [editingTodo, setEditingTodo] = useState<Todo | null>(null);
+  const [filter, setFilter] = useState<"all" | "active" | "completed">("all");
+  const [formData, setFormData] = useState<TodoInput>({
+    title: "",
+    description: "",
+    imageUrl: "",
+  });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string>("");
+  const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      loadTodos();
+    }
+  }, [user]);
+
+  const loadTodos = async () => {
+    if (!user) return;
+    try {
+      setLoading(true);
+      const fetchedTodos = await todoService.getUserTodos(user.uid);
+      setTodos(fetchedTodos);
+    } catch (error) {
+      console.error("Error loading todos:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user || !formData.title.trim()) return;
+
+    try {
+      setSubmitting(true);
+      if (editingTodo) {
+        await todoService.updateTodo(editingTodo.id, formData);
+      } else {
+        await todoService.createTodo(user.uid, formData, imageFile || undefined);
+      }
+      await loadTodos();
+      resetForm();
+    } catch (error: any) {
+      console.error("Error saving todo:", error);
+      alert(`Error creating task: ${error.message || "Unknown error"}. Check console for details.`);
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const handleToggleComplete = async (todo: Todo) => {
+    try {
+      await todoService.toggleComplete(todo.id, !todo.completed);
+      await loadTodos();
+    } catch (error) {
+      console.error("Error toggling todo:", error);
+    }
+  };
+
+  const handleDelete = async (todoId: string) => {
+    if (!confirm("Are you sure you want to delete this task?")) return;
+    try {
+      await todoService.deleteTodo(todoId);
+      await loadTodos();
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
+  const handleEdit = (todo: Todo) => {
+    setEditingTodo(todo);
+    setFormData({
+      title: todo.title,
+      description: todo.description,
+      imageUrl: todo.imageUrl,
+    });
+    setImagePreview(todo.imageUrl || "");
+    setShowModal(true);
+  };
+
+  const resetForm = () => {
+    setShowModal(false);
+    setEditingTodo(null);
+    setFormData({ title: "", description: "", imageUrl: "" });
+    setImageFile(null);
+    setImagePreview("");
+  };
+
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "active") return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    return true;
+  });
+
+  const stats = {
+    total: todos.length,
+    active: todos.filter((t) => !t.completed).length,
+    completed: todos.filter((t) => t.completed).length,
+  };
+
+  if (!user) {
     return (
-        <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
-            <SideBar />
-             <h1 className="text-2xl text-center"> your todos</h1>
+      <div className="flex min-h-screen items-center justify-center bg-[#0D1117] text-white">
+        <p>Please login to view your tasks</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+      <SideBar />
+
+      <main className="flex-1 overflow-y-auto px-8 py-10">
+        <div className="mx-auto max-w-6xl">
+          {/* Header */}
+          <header className="mb-8 flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-semibold">My Tasks</h1>
+              <p className="mt-1 text-gray-400">Manage and track your todos</p>
+            </div>
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex items-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-medium transition hover:bg-orange-600"
+            >
+              <Plus size={20} />
+              Add Task
+            </button>
+          </header>
+
+          {/* Stats */}
+          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+              <p className="text-sm text-gray-400">Total Tasks</p>
+              <p className="mt-2 text-3xl font-bold">{stats.total}</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+              <p className="text-sm text-gray-400">Active</p>
+              <p className="mt-2 text-3xl font-bold text-orange-400">{stats.active}</p>
+            </div>
+            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+              <p className="text-sm text-gray-400">Completed</p>
+              <p className="mt-2 text-3xl font-bold text-green-400">{stats.completed}</p>
+            </div>
+          </div>
+
+          {/* Filter */}
+          <div className="mb-6 flex items-center gap-3">
+            <Filter size={18} className="text-gray-400" />
+            <button
+              onClick={() => setFilter("all")}
+              className={`rounded-lg px-4 py-2 text-sm transition ${
+                filter === "all" ? "bg-orange-500 text-white" : "bg-[#161B22] text-gray-400 hover:text-white"
+              }`}
+            >
+              All
+            </button>
+            <button
+              onClick={() => setFilter("active")}
+              className={`rounded-lg px-4 py-2 text-sm transition ${
+                filter === "active" ? "bg-orange-500 text-white" : "bg-[#161B22] text-gray-400 hover:text-white"
+              }`}
+            >
+              Active
+            </button>
+            <button
+              onClick={() => setFilter("completed")}
+              className={`rounded-lg px-4 py-2 text-sm transition ${
+                filter === "completed" ? "bg-orange-500 text-white" : "bg-[#161B22] text-gray-400 hover:text-white"
+              }`}
+            >
+              Completed
+            </button>
+          </div>
+
+          {/* Todo List */}
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
+            </div>
+          ) : filteredTodos.length === 0 ? (
+            <div className="rounded-xl border border-white/10 bg-[#161B22] p-12 text-center">
+              <p className="text-gray-400">No tasks found. Create your first task!</p>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {filteredTodos.map((todo) => (
+                <div
+                  key={todo.id}
+                  className={`group rounded-xl border border-white/10 bg-[#161B22] p-6 transition hover:border-orange-500/30 ${
+                    todo.completed ? "opacity-60" : ""
+                  }`}
+                >
+                  <div className="flex gap-4">
+                    {/* Checkbox */}
+                    <button
+                      onClick={() => handleToggleComplete(todo)}
+                      className={`mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md border-2 transition ${
+                        todo.completed
+                          ? "border-green-500 bg-green-500"
+                          : "border-gray-500 hover:border-orange-500"
+                      }`}
+                    >
+                      {todo.completed && <Check size={16} className="text-white" />}
+                    </button>
+
+                    {/* Content */}
+                    <div className="flex-1">
+                      <h3
+                        className={`text-lg font-semibold ${
+                          todo.completed ? "text-gray-500 line-through" : "text-white"
+                        }`}
+                      >
+                        {todo.title}
+                      </h3>
+                      {todo.description && (
+                        <p className="mt-1 text-sm text-gray-400">{todo.description}</p>
+                      )}
+                      {todo.imageUrl && (
+                        <img
+                          src={todo.imageUrl}
+                          alt={todo.title}
+                          className="mt-3 h-40 w-full rounded-lg object-cover"
+                        />
+                      )}
+                      <p className="mt-2 text-xs text-gray-500">
+                        Created {new Date(todo.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+
+                    {/* Actions */}
+                    <div className="flex flex-col gap-2 opacity-0 transition group-hover:opacity-100">
+                      <button
+                        onClick={() => handleEdit(todo)}
+                        className="rounded-lg bg-blue-500/20 p-2 text-blue-400 transition hover:bg-blue-500/30"
+                      >
+                        <Pencil size={18} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(todo.id)}
+                        className="rounded-lg bg-red-500/20 p-2 text-red-400 transition hover:bg-red-500/30"
+                      >
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-    )
+      </main>
+
+      {/* Add/Edit Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
+          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#161B22] p-8">
+            <div className="mb-6 flex items-center justify-between">
+              <h2 className="text-2xl font-semibold">
+                {editingTodo ? "Edit Task" : "Create New Task"}
+              </h2>
+              <button
+                onClick={resetForm}
+                className="rounded-lg p-2 text-gray-400 transition hover:bg-white/5 hover:text-white"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-300">Title</label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  placeholder="Enter task title"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-300">Description</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full resize-none rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  placeholder="Enter task description (optional)"
+                  rows={3}
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-sm font-medium text-gray-300">Image</label>
+                <div className="flex flex-col gap-3">
+                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-[#0D1117] px-4 py-8 transition hover:border-orange-500/50">
+                    <ImageIcon size={20} className="text-gray-400" />
+                    <span className="text-sm text-gray-400">
+                      {imageFile ? imageFile.name : "Upload an image (optional)"}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                  </label>
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="h-40 w-full rounded-lg object-cover"
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="flex-1 rounded-xl border border-white/10 bg-[#0D1117] py-3 font-medium transition hover:bg-white/5"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex-1 rounded-xl bg-orange-500 py-3 font-medium transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {submitting ? "Saving..." : editingTodo ? "Update" : "Create"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }

@@ -1,15 +1,24 @@
 import { PauseIcon, PlayIcon, TimerResetIcon } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
+import { analyticsService } from "@/services/analyticsService";
+import { auth } from "@/config/firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function Timer() {
+  const [user] = useAuthState(auth);
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setRunning] = useState<boolean>(false);
+  const sessionStartTime = useRef<number | null>(null);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
     if (isRunning) {
+      if (!sessionStartTime.current) {
+        sessionStartTime.current = Date.now();
+      }
+
       timer = setInterval(() => {
         if (seconds > 0) {
           setSeconds((prev) => prev - 1);
@@ -19,6 +28,7 @@ export default function Timer() {
         } else {
           clearInterval(timer);
           setRunning(false);
+          handleSessionComplete();
         }
       }, 1000);
     }
@@ -26,14 +36,38 @@ export default function Timer() {
     return () => clearInterval(timer);
   }, [isRunning, minutes, seconds]);
 
+  const handleSessionComplete = async () => {
+    if (!user || !sessionStartTime.current) return;
+
+    const duration = Math.floor((Date.now() - sessionStartTime.current) / 1000);
+    
+    if (duration > 60) {
+      try {
+        await analyticsService.logStudySession(user.uid, duration, sessionStartTime.current);
+        console.log("Study session logged:", duration, "seconds");
+      } catch (error) {
+        console.error("Error logging study session:", error);
+      }
+    }
+
+    sessionStartTime.current = null;
+  };
+
   const handleStartPause = (): void => {
+    if (isRunning) {
+      handleSessionComplete();
+    }
     setRunning((prev) => !prev);
   };
 
   const handleReset = (): void => {
+    if (isRunning) {
+      handleSessionComplete();
+    }
     setMinutes(25);
     setSeconds(0);
     setRunning(false);
+    sessionStartTime.current = null;
   };
 
   const display = useMemo(() => {

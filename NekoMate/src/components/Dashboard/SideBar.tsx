@@ -10,28 +10,20 @@ export default function SideBar() {
 
       <nav className="flex-1 px-4 py-6">
         <ul className="space-y-2 text-sm text-gray-300">
-          <li className="rounded-lg px-3 py-2 font-medium text-white transition hover:bg-white/5 " onClick={() => navigate('/')}>
+          <li className="rounded-lg px-3 py-2 font-medium text-white transition hover:bg-white/5 cursor-pointer" onClick={() => navigate('/dashboard')}>
             Dashboard
           </li>
-          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" onClick={() => navigate('task')}>
+          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" onClick={() => navigate('/task')}>
             Tasks
           </li>
-          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" onClick={() => navigate('analytics')}>
+          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" onClick={() => navigate('/analytics')}>
             Analytics
           </li>
-          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white" onClick={() => navigate('chatbot')}>
-            chatbot
-          </li>
-          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white">
-            Settings
+          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" onClick={() => navigate('/chatbot')}>
+            Chatbot
           </li>
         </ul>
       </nav>
-
-      <div className="border-t border-white/10 px-6 py-4 text-sm text-gray-400">
-        <p>Logged in as</p>
-        <p className="mt-1 font-medium text-white">Prabhat Jha</p>
-      </div>
     </aside>
   );
 }
