@@ -10,6 +10,8 @@ import {
   X,
   Youtube,
   StickyNote,
+  Clock,
+  Calendar,
 } from "lucide-react";
 import SideBar from "@/components/Dashboard/SideBar";
 import { analyticsService } from "@/services/analyticsService";
@@ -17,6 +19,7 @@ import { timerService } from "@/services/timerService";
 import { auth } from "@/config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import type { TimerNote, YouTubeLink, TimerPreset } from "@/types/timer";
+import type { StudySession } from "@/types/analytics";
 
 const TIMER_PRESETS: TimerPreset[] = [
   { name: "Pomodoro", minutes: 25 },
@@ -48,6 +51,14 @@ export default function TimerPage() {
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [loadingLinks, setLoadingLinks] = useState(true);
 
+  // Last session state
+  const [lastSession, setLastSession] = useState<StudySession | null>(null);
+  const [sessionHistory, setSessionHistory] = useState<StudySession[]>([]);
+  
+  // Session name state
+  const [sessionName, setSessionName] = useState("");
+  const [showSessionNameInput, setShowSessionNameInput] = useState(false);
+
   // Load notes and links from Firebase
   useEffect(() => {
     if (!user) return;
@@ -57,13 +68,27 @@ export default function TimerPage() {
         setLoadingNotes(true);
         setLoadingLinks(true);
 
-        const [notesData, linksData] = await Promise.all([
+        const [notesData, linksData, sessions, timerState] = await Promise.all([
           timerService.getUserNotes(user.uid),
           timerService.getUserLinks(user.uid),
+          analyticsService.getUserSessions(user.uid, 7),
+          timerService.getTimerState(user.uid),
         ]);
 
         setNotes(notesData);
         setLinks(linksData);
+        if (sessions.length > 0) {
+          setLastSession(sessions[0]);
+          setSessionHistory(sessions.slice(0, 5));
+        }
+        
+        // Load saved timer state
+        if (timerState) {
+          setMinutes(timerState.minutes);
+          setSeconds(timerState.seconds);
+          setIsRunning(false); // Don't auto-resume on page load
+          setCustomMinutes(timerState.customMinutes);
+        }
       } catch (error) {
         console.error("Error loading timer data:", error);
       } finally {
@@ -146,7 +171,23 @@ export default function TimerPage() {
 
     if (duration > 60) {
       try {
-        await analyticsService.logStudySession(user.uid, duration, sessionStartTime.current);
+        await analyticsService.logStudySession(
+          user.uid,
+          duration,
+          sessionStartTime.current,
+          sessionName || undefined
+        );
+        
+        // Reload session history
+        const sessions = await analyticsService.getUserSessions(user.uid, 7);
+        if (sessions.length > 0) {
+          setLastSession(sessions[0]);
+          setSessionHistory(sessions.slice(0, 5));
+        }
+        
+        // Reset session name
+        setSessionName("");
+        setShowSessionNameInput(false);
       } catch (error) {
         console.error("Error logging study session:", error);
       }
@@ -314,6 +355,58 @@ export default function TimerPage() {
                       </motion.div>
                     </div>
                   </motion.div>
+
+                  {/* Session Name Input */}
+                  <div className="mb-6">
+                    {!showSessionNameInput ? (
+                      <button
+                        onClick={() => setShowSessionNameInput(true)}
+                        className="w-full rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 px-4 py-3 text-sm text-gray-600 transition hover:border-blue-400 hover:bg-blue-50 hover:text-blue-600"
+                      >
+                        + Add session name (optional)
+                      </button>
+                    ) : (
+                      <div className="space-y-2">
+                        <input
+                          type="text"
+                          value={sessionName}
+                          onChange={(e) => setSessionName(e.target.value)}
+                          placeholder="e.g., Python Learning Session"
+                          className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
+                          maxLength={50}
+                        />
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setShowSessionNameInput(false)}
+                            className="flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-700 transition hover:bg-gray-50"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            onClick={() => setShowSessionNameInput(false)}
+                            disabled={!sessionName.trim()}
+                            className="flex-1 rounded-lg bg-blue-500 px-3 py-2 text-sm text-white transition hover:bg-blue-600 disabled:opacity-50"
+                          >
+                            Save Name
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {sessionName && !showSessionNameInput && (
+                      <div className="mt-2 flex items-center justify-between rounded-lg bg-blue-50 px-4 py-2">
+                        <span className="text-sm font-medium text-blue-900">📝 {sessionName}</span>
+                        <button
+                          onClick={() => {
+                            setSessionName("");
+                            setShowSessionNameInput(false);
+                          }}
+                          className="text-blue-600 hover:text-blue-700"
+                        >
+                          <X size={16} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Control Buttons */}
                   <div className="flex gap-4">
@@ -574,6 +667,114 @@ export default function TimerPage() {
                   )}
                 </div>
               </div>
+
+              {/* Last Session Details */}
+              <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
+                <div className="mb-4 flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-blue-500" />
+                  <h3 className="text-lg font-semibold text-blue-900">Last Session</h3>
+                </div>
+
+                {lastSession ? (
+                  <div className="space-y-3">
+                    {lastSession.sessionName && (
+                      <div className="rounded-lg bg-gradient-to-r from-blue-50 to-purple-50 p-3 border border-blue-200">
+                        <p className="text-sm font-medium text-blue-900">📝 {lastSession.sessionName}</p>
+                      </div>
+                    )}
+                    
+                    <div className="flex items-center justify-between rounded-lg bg-blue-50 p-3">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-blue-600" />
+                        <span className="text-sm text-gray-700">Duration</span>
+                      </div>
+                      <span className="font-semibold text-blue-600">
+                        {Math.floor(lastSession.duration / 60)} min
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between rounded-lg bg-green-50 p-3">
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-green-600" />
+                        <span className="text-sm text-gray-700">Date</span>
+                      </div>
+                      <span className="font-semibold text-green-600">
+                        {new Date(lastSession.startTime).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center justify-between rounded-lg bg-orange-50 p-3">
+                      <div className="flex items-center gap-2">
+                        <Clock className="h-4 w-4 text-orange-600" />
+                        <span className="text-sm text-gray-700">Time</span>
+                      </div>
+                      <span className="font-semibold text-orange-600">
+                        {new Date(lastSession.startTime).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="py-8 text-center">
+                    <Clock className="mx-auto mb-2 h-8 w-8 text-gray-300" />
+                    <p className="text-sm text-gray-500">No sessions yet</p>
+                    <p className="mt-1 text-xs text-gray-400">Start a timer to track your focus time</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Session History */}
+              {sessionHistory.length > 0 && (
+                <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
+                  <div className="mb-4 flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-purple-500" />
+                    <h3 className="text-lg font-semibold text-blue-900">Recent Sessions</h3>
+                  </div>
+
+                  <div className="space-y-2">
+                    {sessionHistory.map((session, index) => (
+                      <motion.div
+                        key={session.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="rounded-lg border border-gray-200 bg-gray-50 p-3 hover:bg-gray-100 transition"
+                      >
+                        {session.sessionName && (
+                          <p className="mb-1 text-sm font-medium text-gray-900">
+                            📝 {session.sessionName}
+                          </p>
+                        )}
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-gray-600">
+                            {new Date(session.startTime).toLocaleDateString('en-US', { 
+                              month: 'short', 
+                              day: 'numeric' 
+                            })}
+                          </span>
+                          <span className="font-semibold text-blue-600">
+                            {Math.floor(session.duration / 60)} min
+                          </span>
+                        </div>
+                        <div className="mt-1 text-xs text-gray-500">
+                          {new Date(session.startTime).toLocaleTimeString([], {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 rounded-lg bg-gradient-to-r from-purple-50 to-blue-50 p-3 text-center border border-purple-200">
+                    <p className="text-xs text-gray-700">
+                      Keep up the great work! 🎯
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

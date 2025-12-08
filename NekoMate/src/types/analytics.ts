@@ -4,7 +4,8 @@ export type StudySession = {
   duration: number; 
   startTime: number;
   endTime: number;
-  date: string; 
+  date: string;
+  sessionName?: string;
 };
 
 export type DailyStats = {

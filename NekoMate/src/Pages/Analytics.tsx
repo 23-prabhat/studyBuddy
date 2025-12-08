@@ -192,22 +192,22 @@ export default function Analytics() {
             </div>
 
             {/* Study Sessions Chart */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-2">
-                <Activity className="h-5 w-5 text-purple-400" />
-                <h2 className="text-xl font-semibold">Study Sessions Per Day</h2>
+                <Activity className="h-5 w-5 text-purple-500" />
+                <h2 className="text-xl font-semibold text-gray-900">Study Sessions Per Day</h2>
               </div>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="date" stroke="#9ca3af" fontSize={12} />
-                  <YAxis stroke="#9ca3af" fontSize={12} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
+                  <YAxis stroke="#6b7280" fontSize={12} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#1f2937",
-                      border: "1px solid #374151",
+                      backgroundColor: "#ffffff",
+                      border: "1px solid #e5e7eb",
                       borderRadius: "8px",
-                      color: "#fff",
+                      color: "#111827",
                     }}
                   />
                   <Line
@@ -222,10 +222,10 @@ export default function Analytics() {
             </div>
 
             {/* Task Completion Pie Chart */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-2">
-                <CheckCircle2 className="h-5 w-5 text-green-400" />
-                <h2 className="text-xl font-semibold">Task Completion</h2>
+                <CheckCircle2 className="h-5 w-5 text-green-500" />
+                <h2 className="text-xl font-semibold text-gray-900">Task Completion</h2>
               </div>
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
@@ -244,14 +244,14 @@ export default function Analytics() {
                   </Pie>
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#1f2937",
-                      border: "1px solid #374151",
+                      backgroundColor: "#ffffff",
+                      border: "1px solid #e5e7eb",
                       borderRadius: "8px",
-                      color: "#fff",
+                      color: "#111827",
                     }}
                   />
                   <Legend
-                    wrapperStyle={{ color: "#9ca3af" }}
+                    wrapperStyle={{ color: "#6b7280" }}
                     iconType="circle"
                   />
                 </PieChart>
@@ -259,20 +259,20 @@ export default function Analytics() {
             </div>
 
             {/* Stats Summary */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-2">
-                <Target className="h-5 w-5 text-blue-400" />
-                <h2 className="text-xl font-semibold">Performance Summary</h2>
+                <Target className="h-5 w-5 text-blue-500" />
+                <h2 className="text-xl font-semibold text-gray-900">Performance Summary</h2>
               </div>
               <div className="space-y-6">
                 <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-sm text-gray-400">Average Session Time</span>
-                    <span className="font-semibold text-orange-400">
+                    <span className="text-sm text-gray-600">Average Session Time</span>
+                    <span className="font-semibold text-orange-500">
                       {analytics.averageSessionTime} min
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
                     <div
                       className="h-full bg-orange-500 transition-all"
                       style={{
@@ -284,12 +284,12 @@ export default function Analytics() {
 
                 <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-sm text-gray-400">Tasks Completed</span>
-                    <span className="font-semibold text-green-400">
+                    <span className="text-sm text-gray-600">Tasks Completed</span>
+                    <span className="font-semibold text-green-500">
                       {analytics.taskStats.completed} / {analytics.taskStats.total}
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
                     <div
                       className="h-full bg-green-500 transition-all"
                       style={{ width: `${analytics.taskStats.completionRate}%` }}
@@ -299,12 +299,12 @@ export default function Analytics() {
 
                 <div>
                   <div className="mb-2 flex items-center justify-between">
-                    <span className="text-sm text-gray-400">Active Tasks</span>
-                    <span className="font-semibold text-blue-400">
+                    <span className="text-sm text-gray-600">Active Tasks</span>
+                    <span className="font-semibold text-blue-500">
                       {analytics.taskStats.active}
                     </span>
                   </div>
-                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-700">
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
                     <div
                       className="h-full bg-blue-500 transition-all"
                       style={{
@@ -314,11 +314,11 @@ export default function Analytics() {
                   </div>
                 </div>
 
-                <div className="mt-6 rounded-lg bg-[#0D1117] p-4">
-                  <p className="text-center text-sm text-gray-400">
+                <div className="mt-6 rounded-lg bg-blue-50 border border-blue-200 p-4">
+                  <p className="text-center text-sm text-gray-700">
                     Keep up the great work! 🎉
                   </p>
-                  <p className="mt-1 text-center text-xs text-gray-500">
+                  <p className="mt-1 text-center text-xs text-gray-600">
                     You've been productive this week
                   </p>
                 </div>

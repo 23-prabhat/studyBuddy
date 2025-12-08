@@ -11,11 +11,35 @@ export default function Timer() {
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setRunning] = useState<boolean>(false);
   const [customMinutes, setCustomMinutes] = useState<number>(25);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
   const sessionStartTime = useRef<number | null>(null);
+
+  // Load initial timer state from Firebase
+  useEffect(() => {
+    if (!user || isLoaded) return;
+
+    const loadInitialState = async () => {
+      try {
+        const state = await timerService.getTimerState(user.uid);
+        if (state) {
+          setMinutes(state.minutes);
+          setSeconds(state.seconds);
+          setRunning(false); // Don't auto-resume
+          setCustomMinutes(state.customMinutes);
+        }
+        setIsLoaded(true);
+      } catch (error) {
+        console.error("Error loading timer state:", error);
+        setIsLoaded(true);
+      }
+    };
+
+    loadInitialState();
+  }, [user, isLoaded]);
 
   // Subscribe to timer state changes from Firebase
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isLoaded) return;
 
     const unsubscribe = timerService.subscribeToTimerState(user.uid, (state) => {
       if (state) {
@@ -27,9 +51,9 @@ export default function Timer() {
     });
 
     return () => unsubscribe();
-  }, [user]);
+  }, [user, isLoaded]);
 
-  // Save timer state to Firebase whenever it changes
+  // Save timer state to Firebase whenever it changes (debounced)
   useEffect(() => {
     if (!user) return;
 
@@ -47,7 +71,9 @@ export default function Timer() {
       }
     };
 
-    saveState();
+    // Debounce saves to prevent conflicts
+    const timeoutId = setTimeout(saveState, 500);
+    return () => clearTimeout(timeoutId);
   }, [user, minutes, seconds, isRunning, customMinutes]);
 
   useEffect(() => {

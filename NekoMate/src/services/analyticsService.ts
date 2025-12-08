@@ -18,7 +18,8 @@ export const analyticsService = {
   async logStudySession(
     userId: string,
     duration: number,
-    startTime: number
+    startTime: number,
+    sessionName?: string
   ): Promise<string> {
     const endTime = Date.now();
     const date = new Date(startTime).toISOString().split("T")[0];
@@ -29,6 +30,7 @@ export const analyticsService = {
       startTime,
       endTime,
       date,
+      sessionName: sessionName || null,
       createdAt: serverTimestamp(),
     });
 
@@ -57,6 +59,7 @@ export const analyticsService = {
         startTime: data.startTime,
         endTime: data.endTime,
         date: data.date,
+        sessionName: data.sessionName || undefined,
       } as StudySession;
     });
   },
