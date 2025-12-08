@@ -126,14 +126,14 @@ export default function Tasktodo() {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0D1117] text-white">
-        <p>Please login to view your tasks</p>
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 text-gray-900">
+        <p>Please login to view tasks</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+    <div className="flex min-h-screen bg-white text-gray-900 font-sans">
       <SideBar />
 
       <main className="flex-1 overflow-y-auto px-8 py-10">
@@ -141,8 +141,8 @@ export default function Tasktodo() {
           {/* Header */}
           <header className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-semibold">My Tasks</h1>
-              <p className="mt-1 text-gray-400">Manage and track your todos</p>
+              <h1 className="text-3xl font-semibold text-blue-900">My Tasks</h1>
+              <p className="mt-1 text-gray-600">Manage and track your todos</p>
             </div>
             <button
               onClick={() => setShowModal(true)}
@@ -155,27 +155,27 @@ export default function Tasktodo() {
 
           {/* Stats */}
           <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
-              <p className="text-sm text-gray-400">Total Tasks</p>
-              <p className="mt-2 text-3xl font-bold">{stats.total}</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <p className="text-sm text-gray-600">Total Tasks</p>
+              <p className="mt-2 text-3xl font-bold text-gray-900">{stats.total}</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
-              <p className="text-sm text-gray-400">Active</p>
-              <p className="mt-2 text-3xl font-bold text-orange-400">{stats.active}</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <p className="text-sm text-gray-600">Active</p>
+              <p className="mt-2 text-3xl font-bold text-orange-500">{stats.active}</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
-              <p className="text-sm text-gray-400">Completed</p>
-              <p className="mt-2 text-3xl font-bold text-green-400">{stats.completed}</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+              <p className="text-sm text-gray-600">Completed</p>
+              <p className="mt-2 text-3xl font-bold text-green-500">{stats.completed}</p>
             </div>
           </div>
 
           {/* Filter */}
           <div className="mb-6 flex items-center gap-3">
-            <Filter size={18} className="text-gray-400" />
+            <Filter size={18} className="text-gray-600" />
             <button
               onClick={() => setFilter("all")}
               className={`rounded-lg px-4 py-2 text-sm transition ${
-                filter === "all" ? "bg-orange-500 text-white" : "bg-[#161B22] text-gray-400 hover:text-white"
+                filter === "all" ? "bg-blue-500 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
               }`}
             >
               All
@@ -183,7 +183,7 @@ export default function Tasktodo() {
             <button
               onClick={() => setFilter("active")}
               className={`rounded-lg px-4 py-2 text-sm transition ${
-                filter === "active" ? "bg-orange-500 text-white" : "bg-[#161B22] text-gray-400 hover:text-white"
+                filter === "active" ? "bg-blue-500 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
               }`}
             >
               Active
@@ -191,7 +191,7 @@ export default function Tasktodo() {
             <button
               onClick={() => setFilter("completed")}
               className={`rounded-lg px-4 py-2 text-sm transition ${
-                filter === "completed" ? "bg-orange-500 text-white" : "bg-[#161B22] text-gray-400 hover:text-white"
+                filter === "completed" ? "bg-blue-500 text-white" : "bg-white border border-gray-200 text-gray-600 hover:bg-gray-50"
               }`}
             >
               Completed
@@ -201,18 +201,18 @@ export default function Tasktodo() {
           {/* Todo List */}
           {loading ? (
             <div className="flex justify-center py-12">
-              <div className="h-12 w-12 animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
+              <div className="h-12 w-12 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
             </div>
           ) : filteredTodos.length === 0 ? (
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-12 text-center">
-              <p className="text-gray-400">No tasks found. Create your first task!</p>
+            <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm">
+              <p className="text-gray-600">No tasks found. Create your first task!</p>
             </div>
           ) : (
             <div className="space-y-4">
               {filteredTodos.map((todo) => (
                 <div
                   key={todo.id}
-                  className={`group rounded-xl border border-white/10 bg-[#161B22] p-6 transition hover:border-orange-500/30 ${
+                  className={`group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:border-blue-300 ${
                     todo.completed ? "opacity-60" : ""
                   }`}
                 >
@@ -223,7 +223,7 @@ export default function Tasktodo() {
                       className={`mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-md border-2 transition ${
                         todo.completed
                           ? "border-green-500 bg-green-500"
-                          : "border-gray-500 hover:border-orange-500"
+                          : "border-gray-300 hover:border-blue-500"
                       }`}
                     >
                       {todo.completed && <Check size={16} className="text-white" />}
@@ -233,13 +233,13 @@ export default function Tasktodo() {
                     <div className="flex-1">
                       <h3
                         className={`text-lg font-semibold ${
-                          todo.completed ? "text-gray-500 line-through" : "text-white"
+                          todo.completed ? "text-gray-400 line-through" : "text-gray-900"
                         }`}
                       >
                         {todo.title}
                       </h3>
                       {todo.description && (
-                        <p className="mt-1 text-sm text-gray-400">{todo.description}</p>
+                        <p className="mt-1 text-sm text-gray-600">{todo.description}</p>
                       )}
                       {todo.imageUrl && (
                         <img
@@ -279,14 +279,14 @@ export default function Tasktodo() {
       {/* Add/Edit Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#161B22] p-8">
+          <div className="w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-8 shadow-xl">
             <div className="mb-6 flex items-center justify-between">
-              <h2 className="text-2xl font-semibold">
+              <h2 className="text-2xl font-semibold text-blue-900">
                 {editingTodo ? "Edit Task" : "Create New Task"}
               </h2>
               <button
                 onClick={resetForm}
-                className="rounded-lg p-2 text-gray-400 transition hover:bg-white/5 hover:text-white"
+                className="rounded-lg p-2 text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
               >
                 <X size={24} />
               </button>
@@ -294,34 +294,34 @@ export default function Tasktodo() {
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-300">Title</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">Title</label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   placeholder="Enter task title"
                   required
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-300">Description</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">Description</label>
                 <textarea
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full resize-none rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  className="w-full resize-none rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   placeholder="Enter task description (optional)"
                   rows={3}
                 />
               </div>
 
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-300">Image</label>
+                <label className="mb-2 block text-sm font-medium text-gray-700">Image</label>
                 <div className="flex flex-col gap-3">
-                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 bg-[#0D1117] px-4 py-8 transition hover:border-orange-500/50">
-                    <ImageIcon size={20} className="text-gray-400" />
-                    <span className="text-sm text-gray-400">
+                  <label className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 bg-gray-50 px-4 py-8 transition hover:border-blue-400 hover:bg-blue-50">
+                    <ImageIcon size={20} className="text-gray-600" />
+                    <span className="text-sm text-gray-600">
                       {imageFile ? imageFile.name : "Upload an image (optional)"}
                     </span>
                     <input
@@ -345,14 +345,14 @@ export default function Tasktodo() {
                 <button
                   type="button"
                   onClick={resetForm}
-                  className="flex-1 rounded-xl border border-white/10 bg-[#0D1117] py-3 font-medium transition hover:bg-white/5"
+                  className="flex-1 rounded-xl border border-gray-300 bg-white py-3 font-medium text-gray-700 transition hover:bg-gray-50"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="flex-1 rounded-xl bg-orange-500 py-3 font-medium transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex-1 rounded-xl bg-blue-500 py-3 font-medium text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {submitting ? "Saving..." : editingTodo ? "Update" : "Create"}
                 </button>

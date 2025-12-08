@@ -118,33 +118,33 @@ export default function Timer() {
   }, [minutes, seconds]);
 
   return (
-    <section className="flex flex-col rounded-2xl border border-white/10 bg-[#161B22] p-8 text-white shadow-lg">
+    <section className="flex flex-col rounded-2xl border border-gray-200 bg-white p-8 shadow-lg">
       <div className="mb-6 flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Focus Timer</h2>
+        <h2 className="text-2xl font-semibold text-blue-900">Focus Timer</h2>
         <span className="text-xs uppercase tracking-wide text-gray-500">Pomodoro</span>
       </div>
 
       {/* Timer Display */}
       <div className="mb-6 flex flex-wrap justify-center gap-6 md:justify-between">
         <div className="text-center">
-          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-[#0D1117] text-3xl font-bold">
+          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-gray-50 border border-gray-200 text-3xl font-bold text-blue-900">
             {String(display.hrs).padStart(2, "0")}
           </div>
-          <p className="mt-2 text-sm text-gray-400">Hours</p>
+          <p className="mt-2 text-sm text-gray-600">Hours</p>
         </div>
 
         <div className="text-center">
-          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-[#0D1117] text-3xl font-bold">
+          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-gray-50 border border-gray-200 text-3xl font-bold text-blue-900">
             {String(display.mins).padStart(2, "0")}
           </div>
-          <p className="mt-2 text-sm text-gray-400">Minutes</p>
+          <p className="mt-2 text-sm text-gray-600">Minutes</p>
         </div>
 
         <div className="text-center">
-          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-[#0D1117] text-3xl font-bold">
+          <div className="flex h-20 w-20 flex-col items-center justify-center rounded-lg bg-gray-50 border border-gray-200 text-3xl font-bold text-blue-900">
             {String(display.secs).padStart(2, "0")}
           </div>
-          <p className="mt-2 text-sm text-gray-400">Seconds</p>
+          <p className="mt-2 text-sm text-gray-600">Seconds</p>
         </div>
       </div>
 
@@ -152,7 +152,7 @@ export default function Timer() {
       <div className="mt-2 flex gap-4">
         <button
           onClick={handleStartPause}
-          className="flex h-12 flex-1 items-center justify-center rounded-xl bg-orange-500 text-sm font-medium uppercase tracking-wide text-white transition hover:bg-orange-600"
+          className="flex h-12 flex-1 items-center justify-center rounded-xl bg-blue-500 text-sm font-medium uppercase tracking-wide text-white transition hover:bg-blue-600"
           aria-label={isRunning ? "Pause Timer" : "Start Timer"}
         >
           {isRunning ? <PauseIcon size={22} /> : <PlayIcon size={22} />}
@@ -160,7 +160,7 @@ export default function Timer() {
 
         <button
           onClick={handleReset}
-          className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-[#0D1117] transition hover:border-orange-500/60 hover:text-orange-400"
+          className="flex h-12 w-12 items-center justify-center rounded-xl border border-gray-300 bg-white text-gray-700 transition hover:border-orange-500 hover:text-orange-500"
           aria-label="Reset Timer"
         >
           <TimerResetIcon size={22} />

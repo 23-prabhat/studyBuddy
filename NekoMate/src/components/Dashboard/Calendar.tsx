@@ -30,31 +30,31 @@ export default function Calendar() {
     const today = new Date();
 
     return (
-        <section className="space-y-6 rounded-2xl border border-white/10 bg-[#161B22] p-6 shadow-lg">
+        <section className="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
             <header className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm uppercase tracking-wide text-orange-400/70">Calendar</p>
-                    <h2 className="text-xl font-semibold">
+                    <p className="text-sm uppercase tracking-wide text-orange-500">Calendar</p>
+                    <h2 className="text-xl font-semibold text-blue-900">
                         {currentDate.toLocaleString("default", { month: "long" })} {year}
                     </h2>
                 </div>
                 <div className="flex items-center gap-2">
                     <button
                         onClick={prevMonth}
-                        className="rounded-lg border border-white/10 px-3 py-1 text-sm text-gray-300 transition hover:border-orange-500/60 hover:text-orange-400"
+                        className="rounded-lg border border-gray-300 px-3 py-1 text-sm text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
                     >
                         Prev
                     </button>
                     <button
                         onClick={nextMonth}
-                        className="rounded-lg border border-white/10 px-3 py-1 text-sm text-gray-300 transition hover:border-orange-500/60 hover:text-orange-400"
+                        className="rounded-lg border border-gray-300 px-3 py-1 text-sm text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
                     >
                         Next
                     </button>
                 </div>
             </header>
 
-            <div className="grid grid-cols-7 text-center text-xs uppercase tracking-wide text-gray-500">
+            <div className="grid grid-cols-7 text-center text-xs uppercase tracking-wide text-gray-600">
                 {daysOfWeek.map((day) => (
                     <div key={day}>{day}</div>
                 ))}
@@ -78,14 +78,14 @@ export default function Calendar() {
                             type="button"
                             key={`${day}-${index}`}
                             onClick={() => handleDayClick(day)}
-                            className={`flex h-11 items-center justify-center rounded-lg border border-transparent transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#161B22] ${
+                            className={`flex h-11 items-center justify-center rounded-lg border border-transparent transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                                 day === null
                                     ? "cursor-default opacity-0"
                                     : isSelected
-                                    ? "border-orange-500/70 bg-orange-500/20 text-orange-300"
+                                    ? "border-blue-500 bg-blue-50 text-blue-700 font-medium"
                                     : isToday
-                                    ? "border-white/20 bg-white/10 text-white"
-                                    : "text-gray-300 hover:border-orange-500/40 hover:bg-orange-500/10"
+                                    ? "border-orange-500 bg-orange-50 text-orange-700 font-medium"
+                                    : "text-gray-700 hover:border-blue-300 hover:bg-blue-50"
                             }`}
                             disabled={!day}
                         >
@@ -96,7 +96,7 @@ export default function Calendar() {
             </div>
 
             {selectedDate && (
-                <p className="text-sm text-gray-400">
+                <p className="text-sm text-gray-600">
                     Selected: {selectedDate.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })}
                 </p>
             )}

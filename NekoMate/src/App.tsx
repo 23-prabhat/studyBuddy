@@ -7,6 +7,7 @@ import LoginPage from './Pages/LoginPage'
 import Analytics from './Pages/Analytics'
 import Profile from './Pages/Profile'
 import TimerPage from './Pages/TimerPage'
+import ChatbotPage from './Pages/ChatbotPage'
 
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
           <Route path='/analytics' element={<Analytics />} />
           <Route path='/profile' element={<Profile />} />
           <Route path='/timer' element={<TimerPage />} />
+          <Route path='/chatbot' element={<ChatbotPage />} />
          </Routes>
        </BrowserRouter>
     </>

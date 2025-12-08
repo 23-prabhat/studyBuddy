@@ -40,7 +40,7 @@ export default function Profile() {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0D1117] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 text-gray-900">
         <p>Please login to view your profile</p>
       </div>
     );
@@ -55,48 +55,48 @@ export default function Profile() {
     : "Unknown";
 
   return (
-    <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+    <div className="flex min-h-screen bg-white text-gray-900 font-sans">
       <SideBar />
 
-      <main className="flex-1 overflow-y-auto px-8 py-10">
+      <main className="flex-1 overflow-y-auto px-8 py-10 bg-gray-50">
         <div className="mx-auto max-w-4xl">
           {/* Header */}
           <div className="mb-8 flex items-center gap-4">
             <button
               onClick={() => navigate("/dashboard")}
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#161B22] transition hover:border-orange-500/50"
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
             >
               <ArrowLeft size={20} />
             </button>
             <div>
-              <h1 className="text-3xl font-semibold">Profile Settings</h1>
-              <p className="mt-1 text-gray-400">Manage your account information</p>
+              <h1 className="text-3xl font-semibold text-blue-900">Profile Settings</h1>
+              <p className="mt-1 text-gray-600">Manage your account information</p>
             </div>
           </div>
 
           {/* Profile Card */}
-          <div className="rounded-2xl border border-white/10 bg-[#161B22] p-8">
+          <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-lg">
             {/* Profile Picture Section */}
             <div className="mb-8 flex items-center gap-6">
               <div className="relative">
-                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 to-orange-600 text-3xl font-bold">
+                <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 text-white text-3xl font-bold">
                   {(user.displayName || user.email || "U").charAt(0).toUpperCase()}
                 </div>
-                <button className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-[#161B22] bg-orange-500 transition hover:bg-orange-600">
+                <button className="absolute bottom-0 right-0 flex h-8 w-8 items-center justify-center rounded-full border-2 border-white bg-blue-500 text-white transition hover:bg-blue-600">
                   <Camera size={14} />
                 </button>
               </div>
               <div>
-                <h2 className="text-xl font-semibold">
+                <h2 className="text-xl font-semibold text-blue-900">
                   {user.displayName || "User"}
                 </h2>
-                <p className="text-sm text-gray-400">{user.email}</p>
+                <p className="text-sm text-gray-600">{user.email}</p>
               </div>
             </div>
 
             {/* Success Message */}
             {message && (
-              <div className="mb-6 animate-in fade-in slide-in-from-top-2 duration-300 rounded-lg bg-green-500/10 border border-green-500/20 p-3 text-sm text-green-400">
+              <div className="mb-6 animate-in fade-in slide-in-from-top-2 duration-300 rounded-lg bg-green-50 border border-green-200 p-3 text-sm text-green-700">
                 {message}
               </div>
             )}
@@ -104,7 +104,7 @@ export default function Profile() {
             {/* Profile Form */}
             <div className="space-y-6">
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-300">
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
                   <User size={16} />
                   Display Name
                 </label>
@@ -112,13 +112,13 @@ export default function Profile() {
                   type="text"
                   value={displayName}
                   onChange={(e) => setDisplayName(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"
                   placeholder="Enter your name"
                 />
               </div>
 
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-300">
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
                   <Mail size={16} />
                   Email Address
                 </label>
@@ -126,7 +126,7 @@ export default function Profile() {
                   type="email"
                   value={user.email || ""}
                   disabled
-                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-gray-500 cursor-not-allowed"
+                  className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-gray-500 cursor-not-allowed"
                 />
                 <p className="mt-2 text-xs text-gray-500">
                   Email address cannot be changed
@@ -134,7 +134,7 @@ export default function Profile() {
               </div>
 
               <div>
-                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-300">
+                <label className="mb-2 flex items-center gap-2 text-sm font-medium text-gray-700">
                   <Calendar size={16} />
                   Member Since
                 </label>
@@ -142,7 +142,7 @@ export default function Profile() {
                   type="text"
                   value={joinedDate}
                   disabled
-                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] px-4 py-3 text-gray-500 cursor-not-allowed"
+                  className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3 text-gray-500 cursor-not-allowed"
                 />
               </div>
 
@@ -150,14 +150,14 @@ export default function Profile() {
                 <button
                   onClick={handleSaveProfile}
                   disabled={saving || !displayName.trim()}
-                  className="flex items-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-medium transition hover:bg-orange-600 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-xl bg-blue-500 px-6 py-3 font-medium text-white transition hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   <Save size={18} />
                   {saving ? "Saving..." : "Save Changes"}
                 </button>
                 <button
                   onClick={() => navigate("/dashboard")}
-                  className="rounded-xl border border-white/10 bg-[#0D1117] px-6 py-3 font-medium transition hover:bg-white/5"
+                  className="rounded-xl border border-gray-300 bg-white px-6 py-3 font-medium text-gray-700 transition hover:bg-gray-50"
                 >
                   Cancel
                 </button>
@@ -167,25 +167,25 @@ export default function Profile() {
 
           {/* Account Stats */}
           <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-4 text-center">
-              <p className="text-2xl font-bold text-orange-400">
+            <div className="rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm">
+              <p className="text-2xl font-bold text-green-500">
                 {user.emailVerified ? "✓" : "✗"}
               </p>
-              <p className="mt-1 text-sm text-gray-400">Email Verified</p>
+              <p className="mt-1 text-sm text-gray-600">Email Verified</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-4 text-center">
-              <p className="text-2xl font-bold text-blue-400">
+            <div className="rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm">
+              <p className="text-2xl font-bold text-blue-500">
                 {user.metadata.lastSignInTime
                   ? new Date(user.metadata.lastSignInTime).toLocaleDateString()
                   : "N/A"}
               </p>
-              <p className="mt-1 text-sm text-gray-400">Last Login</p>
+              <p className="mt-1 text-sm text-gray-600">Last Login</p>
             </div>
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-4 text-center">
-              <p className="text-2xl font-bold text-green-400">
+            <div className="rounded-xl border border-gray-200 bg-white p-4 text-center shadow-sm">
+              <p className="text-2xl font-bold text-orange-500">
                 {user.providerData[0]?.providerId === "google.com" ? "Google" : "Email"}
               </p>
-              <p className="mt-1 text-sm text-gray-400">Auth Provider</p>
+              <p className="mt-1 text-sm text-gray-600">Auth Provider</p>
             </div>
           </div>
         </div>

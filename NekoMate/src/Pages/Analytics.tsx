@@ -54,7 +54,7 @@ export default function Analytics() {
 
   if (!user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#0D1117] text-white">
+      <div className="flex min-h-screen items-center justify-center bg-gray-50 text-gray-900">
         <p>Please login to view your analytics</p>
       </div>
     );
@@ -62,10 +62,10 @@ export default function Analytics() {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+      <div className="flex min-h-screen bg-white text-gray-900 font-sans">
         <SideBar />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="h-16 w-16 animate-spin rounded-full border-4 border-orange-500 border-t-transparent"></div>
+        <main className="flex-1 flex items-center justify-center bg-gray-50">
+          <div className="h-16 w-16 animate-spin rounded-full border-4 border-blue-500 border-t-transparent"></div>
         </main>
       </div>
     );
@@ -73,10 +73,10 @@ export default function Analytics() {
 
   if (!analytics) {
     return (
-      <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+      <div className="flex min-h-screen bg-white text-gray-900 font-sans">
         <SideBar />
-        <main className="flex-1 flex items-center justify-center">
-          <p>No analytics data available</p>
+        <main className="flex-1 flex items-center justify-center bg-gray-50">
+          <p className="text-gray-600">No analytics data available</p>
         </main>
       </div>
     );
@@ -99,67 +99,67 @@ export default function Analytics() {
   }));
 
   return (
-    <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+    <div className="flex min-h-screen bg-white text-gray-900 font-sans">
       <SideBar />
 
-      <main className="flex-1 overflow-y-auto px-8 py-10">
+      <main className="flex-1 overflow-y-auto px-8 py-10 bg-gray-50">
         <div className="mx-auto max-w-7xl">
           {/* Header */}
           <header className="mb-8">
-            <h1 className="text-3xl font-semibold">Analytics Dashboard</h1>
-            <p className="mt-1 text-gray-400">Track your productivity and progress</p>
+            <h1 className="text-3xl font-semibold text-blue-900">Analytics Dashboard</h1>
+            <p className="mt-1 text-gray-600">Track your productivity and progress</p>
           </header>
 
           {/* Stats Grid */}
           <div className="mb-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {/* Total Focus Time */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-orange-500/20 p-3">
-                  <Clock className="h-6 w-6 text-orange-400" />
+                <div className="rounded-lg bg-orange-100 p-3">
+                  <Clock className="h-6 w-6 text-orange-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Total Focus Time</p>
-                  <p className="text-2xl font-bold">{analytics.totalFocusTime} min</p>
+                  <p className="text-sm text-gray-600">Total Focus Time</p>
+                  <p className="text-2xl font-bold text-gray-900">{analytics.totalFocusTime} min</p>
                 </div>
               </div>
             </div>
 
             {/* Weekly Focus Time */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-blue-500/20 p-3">
-                  <Calendar className="h-6 w-6 text-blue-400" />
+                <div className="rounded-lg bg-blue-100 p-3">
+                  <Calendar className="h-6 w-6 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">This Week</p>
-                  <p className="text-2xl font-bold">{analytics.weeklyFocusTime} min</p>
+                  <p className="text-sm text-gray-600">This Week</p>
+                  <p className="text-2xl font-bold text-gray-900">{analytics.weeklyFocusTime} min</p>
                 </div>
               </div>
             </div>
 
             {/* Total Sessions */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-purple-500/20 p-3">
-                  <Activity className="h-6 w-6 text-purple-400" />
+                <div className="rounded-lg bg-purple-100 p-3">
+                  <Activity className="h-6 w-6 text-purple-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Study Sessions</p>
-                  <p className="text-2xl font-bold">{analytics.totalSessions}</p>
+                  <p className="text-sm text-gray-600">Study Sessions</p>
+                  <p className="text-2xl font-bold text-gray-900">{analytics.totalSessions}</p>
                 </div>
               </div>
             </div>
 
             {/* Completion Rate */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="flex items-center gap-3">
-                <div className="rounded-lg bg-green-500/20 p-3">
-                  <Target className="h-6 w-6 text-green-400" />
+                <div className="rounded-lg bg-green-100 p-3">
+                  <Target className="h-6 w-6 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-400">Completion Rate</p>
-                  <p className="text-2xl font-bold">{analytics.taskStats.completionRate}%</p>
+                  <p className="text-sm text-gray-600">Completion Rate</p>
+                  <p className="text-2xl font-bold text-gray-900">{analytics.taskStats.completionRate}%</p>
                 </div>
               </div>
             </div>
@@ -168,25 +168,25 @@ export default function Analytics() {
           {/* Charts Grid */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
             {/* Daily Focus Time Chart */}
-            <div className="rounded-xl border border-white/10 bg-[#161B22] p-6">
+            <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <div className="mb-6 flex items-center gap-2">
-                <TrendingUp className="h-5 w-5 text-orange-400" />
-                <h2 className="text-xl font-semibold">Daily Focus Time (Last 7 Days)</h2>
+                <TrendingUp className="h-5 w-5 text-orange-500" />
+                <h2 className="text-xl font-semibold text-gray-900">Daily Focus Time (Last 7 Days)</h2>
               </div>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                  <XAxis dataKey="date" stroke="#9ca3af" fontSize={12} />
-                  <YAxis stroke="#9ca3af" fontSize={12} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                  <XAxis dataKey="date" stroke="#6b7280" fontSize={12} />
+                  <YAxis stroke="#6b7280" fontSize={12} />
                   <Tooltip
                     contentStyle={{
-                      backgroundColor: "#1f2937",
-                      border: "1px solid #374151",
+                      backgroundColor: "#ffffff",
+                      border: "1px solid #e5e7eb",
                       borderRadius: "8px",
-                      color: "#fff",
+                      color: "#111827",
                     }}
                   />
-                  <Bar dataKey="minutes" fill="#f97316" radius={[8, 8, 0, 0]} />
+                  <Bar dataKey="minutes" fill="#3b82f6" radius={[8, 8, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

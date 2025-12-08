@@ -29,28 +29,28 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex min-h-screen bg-[#0D1117] text-white font-sans">
+    <div className="flex min-h-screen bg-white text-gray-900 font-sans">
       <SideBar />
 
       <main className="flex-1 overflow-y-auto px-8 py-10">
         {/* Header with Profile */}
         <header className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-semibold">Hello, {getUserName()} 👋</h1>
-            <p className="mt-1 text-gray-400">Let's be productive today.</p>
+            <h1 className="text-3xl font-semibold text-blue-900">Hello, {getUserName()} 👋</h1>
+            <p className="mt-1 text-gray-600">Let's be productive today.</p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-sm font-medium">{getUserName()}</p>
+            <p className="text-sm font-medium text-gray-700">{getUserName()}</p>
             <button
               onClick={() => navigate("/profile")}
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#161B22] transition hover:border-orange-500/50 hover:bg-orange-500/10"
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600"
               title="Profile"
             >
               <User size={20} />
             </button>
             <button
               onClick={handleLogout}
-              className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-[#161B22] transition hover:border-red-500/50 hover:bg-red-500/10"
+              className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 transition hover:border-red-500 hover:bg-red-50 hover:text-red-600"
               title="Logout"
             >
               <LogOut size={18} />

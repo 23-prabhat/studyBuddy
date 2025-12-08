@@ -54,31 +54,31 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117] p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-gray-50 via-blue-50 to-orange-50 p-4">
       {/* Animated background elements */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-4 top-1/4 h-72 w-72 animate-pulse rounded-full bg-orange-500/10 blur-3xl"></div>
-        <div className="absolute -right-4 bottom-1/4 h-96 w-96 animate-pulse rounded-full bg-blue-500/10 blur-3xl delay-1000"></div>
+        <div className="absolute -left-4 top-1/4 h-72 w-72 animate-pulse rounded-full bg-orange-200/40 blur-3xl"></div>
+        <div className="absolute -right-4 bottom-1/4 h-96 w-96 animate-pulse rounded-full bg-blue-200/40 blur-3xl delay-1000"></div>
       </div>
 
       {/* Login/Signup Card */}
       <div className="relative w-full max-w-md">
-        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 rounded-2xl border border-white/10 bg-[#161B22]/80 p-8 shadow-2xl backdrop-blur-xl">
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-700 rounded-2xl border border-gray-200 bg-white p-8 shadow-2xl backdrop-blur-xl">
           {/* Logo/Title */}
           <div className="mb-8 text-center">
-            <h1 className="mb-2 text-4xl font-bold text-white">NekoMate</h1>
-            <p className="text-sm text-gray-400">Your study companion awaits</p>
+            <h1 className="mb-2 text-4xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">NekoMate</h1>
+            <p className="text-sm text-gray-600">Your study companion awaits</p>
           </div>
 
           {/* Toggle Buttons */}
-          <div className="mb-8 flex rounded-xl bg-[#0D1117] p-1">
+          <div className="mb-8 flex rounded-xl bg-gray-100 p-1">
             <button
               type="button"
               onClick={() => setIsLogin(true)}
               className={`flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-300 ${
                 isLogin
-                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
-                  : "text-gray-400 hover:text-white"
+                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Login
@@ -88,8 +88,8 @@ export default function LoginPage() {
               onClick={() => setIsLogin(false)}
               className={`flex-1 rounded-lg py-2.5 text-sm font-medium transition-all duration-300 ${
                 !isLogin
-                  ? "bg-orange-500 text-white shadow-lg shadow-orange-500/30"
-                  : "text-gray-400 hover:text-white"
+                  ? "bg-blue-500 text-white shadow-lg shadow-blue-500/30"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Sign Up
@@ -101,16 +101,16 @@ export default function LoginPage() {
             {/* Name Field (only for signup) */}
             {!isLogin && (
               <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                <label className="mb-2 block text-sm font-medium text-gray-300">
+                <label className="mb-2 block text-sm font-medium text-gray-700">
                   Full Name
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                  <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
                   <input
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-[#0D1117] py-3 pl-11 pr-4 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                    className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                     placeholder="Enter your name"
                     required={!isLogin}
                   />
@@ -120,16 +120,16 @@ export default function LoginPage() {
 
             {/* Email Field */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-300">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 Email
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] py-3 pl-11 pr-4 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   placeholder="Enter your email"
                   required
                 />
@@ -138,23 +138,23 @@ export default function LoginPage() {
 
             {/* Password Field */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-gray-300">
+              <label className="mb-2 block text-sm font-medium text-gray-700">
                 Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                <Lock className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
                 <input
                   type={showPassword ? "text" : "password"}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-[#0D1117] py-3 pl-11 pr-12 text-white placeholder:text-gray-500 focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/30"
+                  className="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-12 text-gray-900 placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/30"
                   placeholder="Enter your password"
                   required
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 transition hover:text-gray-900"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -167,7 +167,7 @@ export default function LoginPage() {
 
             {/* Error Message */}
             {error && (
-              <div className="animate-in fade-in slide-in-from-top-2 duration-300 rounded-lg bg-red-500/10 border border-red-500/20 p-3 text-sm text-red-400">
+              <div className="animate-in fade-in slide-in-from-top-2 duration-300 rounded-lg bg-red-50 border border-red-200 p-3 text-sm text-red-600">
                 {error}
               </div>
             )}
@@ -176,7 +176,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 py-3 font-semibold text-white shadow-lg shadow-orange-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-orange-500/50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 py-3 font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:scale-[1.02] hover:shadow-blue-500/50 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
@@ -193,9 +193,9 @@ export default function LoginPage() {
 
           {/* Divider */}
           <div className="my-6 flex items-center gap-4">
-            <div className="h-px flex-1 bg-white/10"></div>
-            <span className="text-sm text-gray-500">or continue with</span>
-            <div className="h-px flex-1 bg-white/10"></div>
+            <div className="h-px flex-1 bg-gray-300"></div>
+            <span className="text-sm text-gray-600">or continue with</span>
+            <div className="h-px flex-1 bg-gray-300"></div>
           </div>
 
           {/* Google Sign In */}
@@ -203,7 +203,7 @@ export default function LoginPage() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={loading}
-            className="group w-full rounded-xl border border-white/10 bg-[#0D1117] py-3 font-medium text-white transition-all duration-300 hover:border-white/20 hover:bg-white/5 disabled:cursor-not-allowed disabled:opacity-50"
+            className="group w-full rounded-xl border border-gray-300 bg-white py-3 font-medium text-gray-900 transition-all duration-300 hover:border-gray-400 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <span className="flex items-center justify-center gap-3">
               <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -229,12 +229,12 @@ export default function LoginPage() {
           </button>
 
           {/* Footer Text */}
-          <p className="mt-6 text-center text-sm text-gray-500">
+          <p className="mt-6 text-center text-sm text-gray-600">
             {isLogin ? "Don't have an account? " : "Already have an account? "}
             <button
               type="button"
               onClick={() => setIsLogin(!isLogin)}
-              className="font-medium text-orange-400 transition hover:text-orange-300"
+              className="font-medium text-blue-600 transition hover:text-blue-700"
             >
               {isLogin ? "Sign up" : "Login"}
             </button>
