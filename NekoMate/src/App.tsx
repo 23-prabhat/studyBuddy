@@ -6,6 +6,7 @@ import Tasktodo from './Pages/Tasktodo'
 import LoginPage from './Pages/LoginPage'
 import Analytics from './Pages/Analytics'
 import Profile from './Pages/Profile'
+import TimerPage from './Pages/TimerPage'
 
 function App() {
   
@@ -19,6 +20,7 @@ function App() {
           <Route path='/task' element={<Tasktodo />} />
           <Route path='/analytics' element={<Analytics />} />
           <Route path='/profile' element={<Profile />} />
+          <Route path='/timer' element={<TimerPage />} />
          </Routes>
        </BrowserRouter>
     </>

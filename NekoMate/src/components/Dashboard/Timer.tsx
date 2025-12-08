@@ -1,6 +1,7 @@
 import { PauseIcon, PlayIcon, TimerResetIcon } from "lucide-react";
 import { useEffect, useMemo, useState, useRef } from "react";
 import { analyticsService } from "@/services/analyticsService";
+import { timerService } from "@/services/timerService";
 import { auth } from "@/config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 
@@ -9,7 +10,45 @@ export default function Timer() {
   const [minutes, setMinutes] = useState<number>(25);
   const [seconds, setSeconds] = useState<number>(0);
   const [isRunning, setRunning] = useState<boolean>(false);
+  const [customMinutes, setCustomMinutes] = useState<number>(25);
   const sessionStartTime = useRef<number | null>(null);
+
+  // Subscribe to timer state changes from Firebase
+  useEffect(() => {
+    if (!user) return;
+
+    const unsubscribe = timerService.subscribeToTimerState(user.uid, (state) => {
+      if (state) {
+        setMinutes(state.minutes);
+        setSeconds(state.seconds);
+        setRunning(state.isRunning);
+        setCustomMinutes(state.customMinutes);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [user]);
+
+  // Save timer state to Firebase whenever it changes
+  useEffect(() => {
+    if (!user) return;
+
+    const saveState = async () => {
+      try {
+        await timerService.saveTimerState(user.uid, {
+          minutes,
+          seconds,
+          isRunning,
+          customMinutes,
+          lastUpdated: Date.now(),
+        });
+      } catch (error) {
+        console.error("Error saving timer state:", error);
+      }
+    };
+
+    saveState();
+  }, [user, minutes, seconds, isRunning, customMinutes]);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
@@ -64,7 +103,7 @@ export default function Timer() {
     if (isRunning) {
       handleSessionComplete();
     }
-    setMinutes(25);
+    setMinutes(customMinutes);
     setSeconds(0);
     setRunning(false);
     sessionStartTime.current = null;

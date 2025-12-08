@@ -16,6 +16,9 @@ export default function SideBar() {
           <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" onClick={() => navigate('/task')}>
             Tasks
           </li>
+          <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" onClick={() => navigate('/timer')}>
+            Timer
+          </li>
           <li className="rounded-lg px-3 py-2 transition hover:bg-white/5 hover:text-white cursor-pointer" onClick={() => navigate('/analytics')}>
             Analytics
           </li>
