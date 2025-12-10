@@ -142,7 +142,12 @@ export default function Tasktodo() {
           <header className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-semibold text-blue-900">My Tasks</h1>
-              <p className="mt-1 text-gray-600">Manage and track your todos</p>
+              <p className="mt-1 text-gray-600">
+                {stats.active > 0 
+                  ? `You have ${stats.active} incomplete ${stats.active === 1 ? 'task' : 'tasks'}`
+                  : 'All tasks completed! 🎉'
+                }
+              </p>
             </div>
             <button
               onClick={() => setShowModal(true)}

@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { User, LogOut } from "lucide-react";
 import Calendar from "@/components/Dashboard/Calendar";
 import Notes from "@/components/Dashboard/Notes";
+import Notifications from "@/components/Dashboard/Notifications";
 import SideBar from "@/components/Dashboard/SideBar";
 import Task from "@/components/Dashboard/Task";
 import Timer from "@/components/Dashboard/Timer";
@@ -40,7 +41,7 @@ export default function Dashboard() {
             <p className="mt-1 text-gray-600">Let's be productive today.</p>
           </div>
           <div className="flex items-center gap-3">
-            <p className="text-sm font-medium text-gray-700">{getUserName()}</p>
+            <Notifications />
             <button
               onClick={() => navigate("/profile")}
               className="flex h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-white text-gray-700 transition hover:border-blue-500 hover:bg-blue-50 hover:text-blue-600"

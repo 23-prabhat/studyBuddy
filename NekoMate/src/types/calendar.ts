@@ -7,6 +7,7 @@ export type CalendarEvent = {
   time?: string;
   type: 'event' | 'task';
   completed?: boolean;
+  read?: boolean;
   createdAt: number;
 };
 

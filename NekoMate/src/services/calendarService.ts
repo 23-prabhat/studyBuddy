@@ -17,16 +17,22 @@ const EVENTS_COLLECTION = "calendarEvents";
 
 export const calendarService = {
   async createEvent(userId: string, eventData: CalendarEventInput): Promise<string> {
-    const docRef = await addDoc(collection(db, EVENTS_COLLECTION), {
+    const eventDoc: any = {
       userId,
       title: eventData.title,
       description: eventData.description || null,
       date: eventData.date,
       time: eventData.time || null,
       type: eventData.type,
-      completed: eventData.type === 'task' ? false : undefined,
       createdAt: serverTimestamp(),
-    });
+    };
+
+    // Only add completed field for tasks
+    if (eventData.type === 'task') {
+      eventDoc.completed = false;
+    }
+
+    const docRef = await addDoc(collection(db, EVENTS_COLLECTION), eventDoc);
 
     return docRef.id;
   },
@@ -65,6 +71,11 @@ export const calendarService = {
   async toggleEventComplete(eventId: string, completed: boolean): Promise<void> {
     const eventRef = doc(db, EVENTS_COLLECTION, eventId);
     await updateDoc(eventRef, { completed });
+  },
+
+  async markEventAsRead(eventId: string): Promise<void> {
+    const eventRef = doc(db, EVENTS_COLLECTION, eventId);
+    await updateDoc(eventRef, { read: true });
   },
 
   async deleteEvent(eventId: string): Promise<void> {
