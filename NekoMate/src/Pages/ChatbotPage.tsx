@@ -2,8 +2,8 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Bot, User, Sparkles, MessageCircle } from "lucide-react";
 import SideBar from "@/components/Dashboard/SideBar";
-import { auth } from "@/config/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
+// import { auth } from "@/config/firebase";
+// import { useAuthState } from "react-firebase-hooks/auth";
 
 interface Message {
   id: string;
@@ -30,7 +30,7 @@ const BOT_RESPONSES: { [key: string]: string } = {
 };
 
 export default function ChatbotPage() {
-  const [user] = useAuthState(auth);
+  //const [user] = useAuthState(auth);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",

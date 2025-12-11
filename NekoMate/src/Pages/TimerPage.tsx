@@ -139,7 +139,7 @@ export default function TimerPage() {
 
   // Timer logic
   useEffect(() => {
-    let timer: NodeJS.Timeout;
+    let timer: ReturnType<typeof setInterval>;
 
     if (isRunning) {
       if (!sessionStartTime.current) {

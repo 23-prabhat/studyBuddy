@@ -77,8 +77,7 @@ export default function Timer() {
   }, [user, minutes, seconds, isRunning, customMinutes]);
 
   useEffect(() => {
-    let timer: NodeJS.Timeout;
-
+    let timer: ReturnType<typeof setInterval>;
     if (isRunning) {
       if (!sessionStartTime.current) {
         sessionStartTime.current = Date.now();

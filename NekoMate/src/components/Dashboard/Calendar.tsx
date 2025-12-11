@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { Plus, X, Check, Trash2, Calendar as CalendarIcon, Clock } from "lucide-react";
+import { Plus, X, Check, Trash2, Clock } from "lucide-react";
 import { calendarService } from "@/services/calendarService";
 import { auth } from "@/config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";

@@ -10,7 +10,6 @@ import {
   setDoc,
   getDoc,
   onSnapshot,
-  serverTimestamp,
 } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import type { TimerNote, YouTubeLink } from "@/types/timer";
