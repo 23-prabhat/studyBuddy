@@ -139,10 +139,10 @@ export default function Tasktodo() {
       <main className="flex-1 overflow-y-auto px-8 py-10">
         <div className="mx-auto max-w-6xl">
           {/* Header */}
-          <header className="mb-8 flex items-center justify-between">
+          <header className="mb-6 sm:mb-8 flex items-center justify-between gap-3 flex-col sm:flex-row">
             <div>
-              <h1 className="text-3xl font-semibold text-blue-900">My Tasks</h1>
-              <p className="mt-1 text-gray-600">
+              <h1 className="text-2xl sm:text-3xl font-semibold text-blue-900">My Tasks</h1>
+              <p className="mt-1 text-gray-600 text-sm sm:text-base">
                 {stats.active > 0 
                   ? `You have ${stats.active} incomplete ${stats.active === 1 ? 'task' : 'tasks'}`
                   : 'All tasks completed! 🎉'
@@ -151,7 +151,7 @@ export default function Tasktodo() {
             </div>
             <button
               onClick={() => setShowModal(true)}
-              className="flex items-center gap-2 rounded-xl bg-orange-500 px-6 py-3 font-medium transition hover:bg-orange-600"
+              className="w-full sm:w-auto flex items-center gap-2 rounded-xl bg-orange-500 px-5 sm:px-6 py-2.5 sm:py-3 text-sm sm:text-base font-medium transition hover:bg-orange-600"
             >
               <Plus size={20} />
               Add Task
@@ -159,7 +159,7 @@ export default function Tasktodo() {
           </header>
 
           {/* Stats */}
-          <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="mb-6 sm:mb-8 grid grid-cols-1 gap-4 sm:grid-cols-3">
             <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
               <p className="text-sm text-gray-600">Total Tasks</p>
               <p className="mt-2 text-3xl font-bold text-gray-900">{stats.total}</p>
@@ -175,7 +175,7 @@ export default function Tasktodo() {
           </div>
 
           {/* Filter */}
-          <div className="mb-6 flex items-center gap-3">
+          <div className="mb-6 flex flex-wrap items-center gap-2 sm:gap-3">
             <Filter size={18} className="text-gray-600" />
             <button
               onClick={() => setFilter("all")}

@@ -126,7 +126,7 @@ export default function Notifications() {
                         onClick={() => setShowNotifications(false)}
                     />
                     
-                    <div className="absolute right-0 top-12 z-50 w-96 rounded-xl border border-gray-200 bg-white shadow-xl">
+                    <div className="absolute right-0 sm:right-0 top-12 z-50 w-[calc(100vw-2rem)] sm:w-96 max-w-md rounded-xl border border-gray-200 bg-white shadow-xl">
                         <div className="border-b border-gray-200 p-4">
                             <div className="flex items-center justify-between">
                                 <div>
@@ -146,7 +146,7 @@ export default function Notifications() {
                             </div>
                         </div>
 
-                        <div className="max-h-[32rem] overflow-y-auto p-4">
+                        <div className="max-h-[60vh] sm:max-h-[32rem] overflow-y-auto p-4">
                             {todayEvents.length === 0 ? (
                                 <div className="flex flex-col items-center justify-center py-8">
                                     <Bell size={48} className="text-gray-300 mb-2" />

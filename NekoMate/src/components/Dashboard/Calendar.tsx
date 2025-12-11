@@ -129,37 +129,37 @@ export default function Calendar() {
     const today = new Date();
 
     return (
-        <section className="space-y-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-lg">
-            <header className="flex items-center justify-between">
+        <section className="space-y-6 rounded-2xl border border-gray-200 bg-white p-4 sm:p-6 shadow-lg">
+            <header className="flex items-center justify-between gap-3 flex-col sm:flex-row">
                 <div>
-                    <p className="text-sm uppercase tracking-wide text-orange-500">Calendar</p>
-                    <h2 className="text-xl font-semibold text-blue-900">
+                    <p className="text-xs sm:text-sm uppercase tracking-wide text-orange-500">Calendar</p>
+                    <h2 className="text-lg sm:text-xl font-semibold text-blue-900">
                         {currentDate.toLocaleString("default", { month: "long" })} {year}
                     </h2>
                 </div>
                 <div className="flex items-center gap-2">
                     <button
                         onClick={prevMonth}
-                        className="rounded-lg border border-gray-300 px-3 py-1 text-sm text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
+                        className="rounded-lg border border-gray-300 px-2 sm:px-3 py-1 text-xs sm:text-sm text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
                     >
                         Prev
                     </button>
                     <button
                         onClick={nextMonth}
-                        className="rounded-lg border border-gray-300 px-3 py-1 text-sm text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
+                        className="rounded-lg border border-gray-300 px-2 sm:px-3 py-1 text-xs sm:text-sm text-gray-700 transition hover:border-blue-500 hover:text-blue-600"
                     >
                         Next
                     </button>
                 </div>
             </header>
 
-            <div className="grid grid-cols-7 text-center text-xs uppercase tracking-wide text-gray-600">
+            <div className="grid grid-cols-7 text-center text-[10px] sm:text-xs uppercase tracking-wide text-gray-600">
                 {daysOfWeek.map((day) => (
                     <div key={day}>{day}</div>
                 ))}
             </div>
 
-            <div className="grid grid-cols-7 gap-2 text-center text-sm">
+            <div className="grid grid-cols-7 gap-1 sm:gap-2 text-center text-xs sm:text-sm">
                 {days.map((day, index) => {
                     const isToday =
                         day === today.getDate() &&
@@ -180,7 +180,7 @@ export default function Calendar() {
                             type="button"
                             key={`${day}-${index}`}
                             onClick={() => handleDayClick(day)}
-                            className={`relative flex h-11 items-center justify-center rounded-lg border border-transparent transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
+                            className={`relative flex h-8 sm:h-11 items-center justify-center rounded-lg border border-transparent transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-white ${
                                 day === null
                                     ? "cursor-default opacity-0"
                                     : isSelected
@@ -193,7 +193,7 @@ export default function Calendar() {
                         >
                             {day ?? ""}
                             {hasEvents && (
-                                <div className="absolute bottom-1 flex gap-0.5">
+                                <div className="absolute bottom-0 sm:bottom-1 flex gap-0.5">
                                     {dayEvents.slice(0, 3).map((_, i) => (
                                         <div key={i} className="h-1 w-1 rounded-full bg-blue-500"></div>
                                     ))}
