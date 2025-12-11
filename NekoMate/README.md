@@ -202,6 +202,23 @@ Serve files under `dist/`.
 - **Timer not syncing**: Ensure user is authenticated; check debounced updates in `timerService.ts`.
 - **Calendar event not saving**: Confirm `userId` is set and rules allow write; check client-side filtering logic.
 
+## Security & Environment
+
+- Store secrets in `.env` and never commit them. This repo’s `.gitignore` already ignores `.env`.
+- Rotate Firebase API keys and restrict usage in Firebase Console when possible.
+- Do not paste credentials in issues or screenshots. Use placeholders like `your_api_key`.
+- Validate Firestore Security Rules to enforce per-user document access.
+
+## Contributing & Feedback
+
+- Open to corrections, improvements, and new feature ideas.
+- Please open an issue describing the change or bug with clear steps.
+- For pull requests:
+   - Fork the repo and create a feature branch.
+   - Keep changes focused and documented.
+   - Run `npm run lint` and ensure the app builds.
+   - Avoid committing any secrets or `.env` files.
+
 ## License
 
 Copyright © 2025. All rights reserved.
